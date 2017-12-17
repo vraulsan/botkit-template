@@ -1,7 +1,7 @@
 //
 // Displays the code of the specified skill
 //
-module.exports = function (controller) {
+/*module.exports = function (controller) {
 
     controller.hears([/^show\s*(.*)$/, /^code\s*(.*)$/], 'direct_message,direct_mention', function (bot, message) {
 
@@ -55,3 +55,4 @@ function showSkill(skill, bot, message) {
         bot.reply(message, code);
     });
 }
+*/
