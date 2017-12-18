@@ -5,7 +5,7 @@
 module.exports = function (controller) {
 
     controller.on('bot_space_join', function (bot, event) {
-
+        console.log('this is the event', event);
         var welcome = `Hi <@personId:${event.actorId}>, so glad meeting you!`;
 
         if (this.identity) {
@@ -22,7 +22,7 @@ module.exports = function (controller) {
             }
 
             var help = "Type `help` to learn about my skills.";
-
+            console.log('this is the raw_message', rawMEssage);
             if (rawMessage.roomType == "group") {
                 help = "Note that this is a 'Group' Space. I will answer only if mentionned.<br/>";
                 help += "To learn about my skills, type " + bot.appendMention(rawMessage, "help");
