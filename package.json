@@ -1,5 +1,5 @@
 {
-  "description": "Botkit template for Cisco Spark",
+  "description": "PIE Bot | based on devnet's botkit template",
   "version": "0.6.0-redis3",
   "main": "bot.js",
   "scripts": {
@@ -8,9 +8,10 @@
   "keywords": [
     "ciscospark",
     "botkit",
-    "devnet"
+    "devnet",
+    "piebot"
   ],
-  "author": "Stève Sfartz (Cisco DevNet) <stsfartz@cisco.com>",
+  "author": "Victor Maggiolo (Spectrum) <victor.maggiolo@charter.com>",
   "license": "MIT",
   "dependencies": {
     "botkit": "0.6.0",
@@ -20,6 +21,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/CiscoDevNet/botkit-template.git"
+    "url": "https://github.com/vraulsan/spark-piebot.git"
   }
 }
