@@ -1,15 +1,18 @@
+// require firebase and add config variables
 var firebase = require('firebase');
 var config = {
-    apiKey: 'AIzaSyDwd_Vl8ov8soR-XdOXKV40SJVhkx-4U8I',
-    authDomain: "spark-pie-bot.firebaseapp.com",
-    databaseURL: "https://spark-pie-bot.firebaseio.com/",
-    storageBucket: "gs://spark-pie-bot.appspot.com/",
+    apiKey: process.env.FIREBASE_KEY,
+    authDomain: process.env.FIREBASE_DOMAIN,
+    databaseURL: process.env.FIREBASE_DB_URL,
+    storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
 }
+// initialize firebase and obtain a database reference
 firebase.initializeApp(config);
 var database = firebase.database()
 var ref = database.ref("tasks/");
 
 module.exports = function(controller) {
+    // add task functionality
     controller.hears(['add task (.*)'],'direct_message,direct_mention', function(bot, message) {
         var newtask = message.match[1];
         var author = message.raw_message.data.personEmail.split('.')[0]
@@ -28,6 +31,7 @@ module.exports = function(controller) {
             });
         });
     });
+    // show tasks functionality
     controller.hears(['show tasks'], 'direct_message,direct_mention', function(bot, message) {
         bot.reply(message, 'Let me fetch that real quick for you bro...');
         ref.once('value', function (snap) {
@@ -38,6 +42,7 @@ module.exports = function(controller) {
             bot.reply(message,{text: 'If you had markdown enabled you would be able to see something cool...', markdown: tasksList});
         });
     })
+    // complete a task functionality
     controller.hears(['complete task (.*)'],'direct_message,direct_mention', function(bot, message) {
         var taskToComplete = Number(message.match[1]);
         ref.orderByChild('id').equalTo(taskToComplete).once('value', function (snap) {
@@ -58,17 +63,19 @@ module.exports = function(controller) {
                 });
         });
     });
-    function generateTaskList (tasksObject) {
-      var text = ''
-      Object.keys(tasksObject).forEach(function (key) {
-        var obj = tasksObject[key];
-        if (obj.completed)
-            text = text +obj.id+'. ' + obj.description + ' // by ' + obj.author + '\n\n';
-        else
-            text = text +obj.id+'. **' + obj.description + ' // by ' + obj.author+'**' + '\n\n';
-      });
-      console.log(text)
-      finalText = '## EIP Team Task list\n'+ '- - -\n' + text
-      return finalText;
-    };
+};
+
+
+function generateTaskList (tasksObject) {
+  var text = ''
+  Object.keys(tasksObject).forEach(function (key) {
+    var obj = tasksObject[key];
+    if (obj.completed)
+        text = text +obj.id+'. ' + obj.description + ' // by ' + obj.author + '\n\n';
+    else
+        text = text +obj.id+'. **' + obj.description + ' // by ' + obj.author+'**' + '\n\n';
+  });
+  console.log(text)
+  finalText = '## EIP Team Task list\n'+ '- - -\n' + text
+  return finalText;
 };

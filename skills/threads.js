@@ -1,9 +1,7 @@
 module.exports = function (controller) {
 
     controller.hears([/^threads$/], "direct_message,direct_mention", function (bot, message) {
-
         bot.startConversation(message, function (err, convo) {
-
             convo.ask("What is your favorite color?", [
                 {
                     pattern: "^blue|green|pink|red|yellow$",
@@ -20,7 +18,6 @@ module.exports = function (controller) {
                     }
                 }
             ], { key: "answer" });
-
             // Success thread
             convo.addMessage(
                 "Cool, I love '{{responses.answer}}' too",
