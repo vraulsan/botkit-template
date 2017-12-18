@@ -5,8 +5,8 @@ var text = `
 ## PIE bot - a0.2 - Now hosted in Heroku !
 - - -
 I'm a spark bot, when interacting with me in a group space such as "TEAM PIE/General" please use DM's i.e. @PIE
-* You can say ***PIE show tasks*** or ***PIE add task "task"*** or ***PIE complete task "id"***
-* You can say ***PIE meme "type" "upText" "downText"***\n\n
+* You can say **PIE show tasks** or **PIE add task "task"** or **PIE complete task "id"**
+* You can say **PIE meme "type" "upText" "downText"**\n\n
 This app is developed by Victor, let him know if you want to contribute to this project.
 `
 module.exports = function (controller) {
