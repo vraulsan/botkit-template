@@ -7,13 +7,13 @@ module.exports = function (controller, bot) {
     //
     var botcommons = {
         // Bot description
-        "description": "It's an awesome bot for sure!",
+        "description": "Managed Services EIP - PIE Bot",
         // Where to get more information about the bot
-        "url": "https://github.com/CiscoDevNet/botkit-template",
+        "url": "https://github.com/vraulsan/spark-piebot",
         // Legal owner
-        "legal-owner": "Cisco DevNet <https://developer.cisco.com>",
+        "legal-owner": "No owner",
         // Contact name for support
-        "support-contact": "Stève Sfartz <mailto:stsfartz@cisco.com>",
+        "support-contact": "Victor Maggiolo <victor.maggiolo@charter.com>",
         // Messaging platform
         "plaform": bot.type,
         // the precise bot identity is loaded asynchronously, as /people/me request - issued by "BotKit CiscoSparkBot.js" - returns

@@ -1,6 +1,6 @@
 //
 // Copyright (c) 2017 Cisco Systems
-// Licensed under the MIT License 
+// Licensed under the MIT License
 //
 
 //
@@ -22,12 +22,10 @@ if (!process.env.SPARK_TOKEN) {
 var public_url = process.env.PUBLIC_URL;
 // Infer the app domain for popular Cloud PaaS
 if (!public_url) {
-
     // Heroku hosting: available if dyno metadata are enabled, https://devcenter.heroku.com/articles/dyno-metadata
     if (process.env.HEROKU_APP_NAME) {
         public_url = "https://" + process.env.HEROKU_APP_NAME + ".herokuapp.com";
     }
-
     // Glitch hosting
     if (process.env.PROJECT_DOMAIN) {
         public_url = "https://" + process.env.PROJECT_DOMAIN + ".glitch.me";
@@ -41,15 +39,11 @@ if (!public_url) {
     process.exit(1);
 }
 
-
 //
 // Create bot
 //
-
 var Botkit = require('botkit');
-
 var env = process.env.NODE_ENV || "development";
-
 var configuration = {
     log: true,
     public_address: public_url,
@@ -59,27 +53,22 @@ var configuration = {
 }
 
 if (process.env.REDIS_URL) {
-
     // Initialize Redis storage
     var redisConfig = {
         // for local dev:  redis://127.0.0.1:6379
         // if on heroku :  redis://h:PASSWORD@ec2-54-86-77-126.compute-1.amazonaws.com:60109
         url: process.env.REDIS_URL
-
         // uncomment to add extra global key spaces to store data, example:
         //, methods: ['activities']
-
         // uncomment to override the Redis namespace prefix, Defaults to 'botkit:store', example:
-        //, namespace: 'cisco:devnet'         
+        //, namespace: 'cisco:devnet'
     };
 
     // Create Redis storage for BotKit
     try {
         var redisStorage = require('botkit-storage-redis')(redisConfig);
-
         configuration.storage = redisStorage;
         console.log("Redis storage successfully initialized");
-
         // Note that we did not ping'ed Redis yet
         // then a 'ECONNREFUSED' error will be thrown if the Redis can be ping'ed later in the initialization process
         // which is fine in a "Fail Fast" strategy
@@ -88,17 +77,12 @@ if (process.env.REDIS_URL) {
         console.log("Could not initialise Redis storage, check the provided Redis URL, err: " + err.message);
     }
 }
-
 var controller = Botkit.sparkbot(configuration);
-
-var bot = controller.spawn({
-});
-
+var bot = controller.spawn({ });
 
 //
 // Launch bot
 //
-
 var port = process.env.PORT || 3000;
 controller.setupWebserver(port, function (err, webserver) {
     controller.createWebhookEndpoints(webserver, bot, function () {
@@ -128,11 +112,9 @@ controller.setupWebserver(port, function (err, webserver) {
     console.log("Cisco Spark: healthcheck available at: " + process.env.HEALTHCHECK_ROUTE);
 });
 
-
 //
 // Load skills
 //
-
 var normalizedPath = require("path").join(__dirname, "skills");
 require("fs").readdirSync(normalizedPath).forEach(function (file) {
     try {
