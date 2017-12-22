@@ -114,7 +114,7 @@ controller.setupWebserver(port, function (err, webserver) {
 });
 
 var imap = {
-  user: "vraulsan",
+  user: "vraulsan@gmail.com",
   password: process.env.MAILERPASSWORD,
   host: "imap.gmail.com",
   port: 993, //imap port
