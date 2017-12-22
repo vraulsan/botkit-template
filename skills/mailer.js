@@ -10,19 +10,18 @@ const imap = {
   tlsOptions: { rejectUnauthorized: false }\
 };
 
-notifier(imap)
-  .on('mail', mail => console.log(mail))
-  .start();
 
-const n = notifier(imap);
 
 
 
 module.exports = function(controller) {
+  notifier(imap)
+    .on('mail', mail => console.log(mail))
+    .start();
+  const n = notifier(imap);
   n.on('end', () =>  n.start())
     .on('mail', mail => console.log(mail.from[0].address, mail.subject))
     .start();
-  controller.hears('yoyo', 'direct_message,direct_mention', function(bot, message) {
-    var name = message.raw_message.data.personEmail.split('.')[0]
+  controller.hears('mailer', 'direct_message,direct_mention', function(bot, message) {
     bot.reply(message, 'yoyo ' + name);
   });
