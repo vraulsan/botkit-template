@@ -119,7 +119,7 @@ var imap = {
   host: "imap.gmail.com",
   port: 993, //imap port
   tls: true,
-  tlsOptions: { rejectUnauthorized: false }\
+  tlsOptions: { rejectUnauthorized: false }
 };
 
 notifier(imap)
