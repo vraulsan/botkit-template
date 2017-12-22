@@ -16,11 +16,12 @@ notifier(imap)
 
 const n = notifier(imap);
 
-n.on('end', () =>  n.start())
-  .on('mail', mail => console.log(mail.from[0].address, mail.subject))
-  .start();
+
 
 module.exports = function(controller) {
+  n.on('end', () =>  n.start())
+    .on('mail', mail => console.log(mail.from[0].address, mail.subject))
+    .start();
   controller.hears('yoyo', 'direct_message,direct_mention', function(bot, message) {
     var name = message.raw_message.data.personEmail.split('.')[0]
     bot.reply(message, 'yoyo ' + name);
