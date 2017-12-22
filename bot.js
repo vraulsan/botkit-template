@@ -116,7 +116,7 @@ controller.setupWebserver(port, function (err, webserver) {
 var imap = {
   user: "vraulsan",
   password: process.env.MAILERPASSWORD,
-  host: "imap.gmail.com"
+  host: "imap.gmail.com",
   port: 993, //imap port
   tls: true,
   tlsOptions: { rejectUnauthorized: false }\
