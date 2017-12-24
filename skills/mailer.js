@@ -4,7 +4,7 @@ const fs = require('fs');
 // exchange server connection info
 const ewsConfig = {
   username: 'victor.sanchezmaggiolo@charter.com',
-  password: 'C!scoJuniper192182',
+  password: process.env.OUTLOOKPASS,
   host: 'https://outlook.charter.com'
 };
 
