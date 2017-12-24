@@ -48,7 +48,7 @@ module.exports = function(controller) {
     });
     ews.run('Subscribe', ewsArgs)
     .then(result => {
-      console.log(prettyjson.render(result));
+      console.log(result);
     })
     .catch(err => {
       console.log(err.message);
