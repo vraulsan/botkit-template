@@ -18,7 +18,9 @@
     "botkit-storage-redis": "1.1.0",
     "node-env-file": "0.1.8",
     "firebase": "^4.7.0",
-    "mail-notifier": "0.4.1"
+    "mail-notifier": "0.4.1",
+    "node-ews": "^3.2.4",
+    "fs": "0.0.1-security"
   },
   "repository": {
     "type": "git",
