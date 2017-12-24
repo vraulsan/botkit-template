@@ -18,6 +18,23 @@ const serviceOptions = {
   xml: fs.readFileSync('../NotificationService.wsdl', 'utf8') // the xml field is required
 };
 
+const ewsArgs = {
+  PushSubscriptionRequest: {
+    FolderIds: {
+      DistinguishedFolderId: {
+        attributes: {
+          Id: 'inbox'
+        }
+      }
+    },
+    EventTypes: {
+      EventType: ['CreatedEvent']
+    },
+    StatusFrequency: 1,
+    // subscription notifications will be sent to our listener service
+    URL: 'https://spark-piebot.herokuapp.com:8000/'
+  }
+};
 
 module.exports = function(controller) {
   controller.hears('mailer', 'direct_message,direct_mention', function(bot, message) {
@@ -28,24 +45,6 @@ module.exports = function(controller) {
       return {SendNotificationResult: { SubscriptionStatus: 'OK' } }; // respond with 'OK' to keep subscription alive
       // return {SendNotificationResult: { SubscriptionStatus: 'UNSUBSCRIBE' } }; // respond with 'UNSUBSCRIBE' to unsubscribe
     });
-
-    const ewsArgs = {
-      PushSubscriptionRequest: {
-        FolderIds: {
-          DistinguishedFolderId: {
-            attributes: {
-              Id: 'inbox'
-            }
-          }
-        },
-        EventTypes: {
-          EventType: ['CreatedEvent']
-        },
-        StatusFrequency: 1,
-        // subscription notifications will be sent to our listener service
-        URL: 'https://spark-piebot.herokuapp.com:8000/'
-      }
-    };
     ews.run('Subscribe', ewsArgs)
     .then(result => {
       console.log(prettyjson.render(result));
@@ -53,6 +52,5 @@ module.exports = function(controller) {
     .catch(err => {
       console.log(err.message);
     });
-
     bot.reply(message, 'yoyo ' + name);
   });

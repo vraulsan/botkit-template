@@ -125,6 +125,7 @@ require("fs").readdirSync(normalizedPath).forEach(function (file) {
         console.log("Cisco Spark: loaded skill: " + file);
     }
     catch (err) {
+      console.log('couldnt load a skill:\n', err);
         if (err.code == "MODULE_NOT_FOUND") {
             if (file != "utils") {
                 console.log("Cisco Spark: could not load skill: " + file);
