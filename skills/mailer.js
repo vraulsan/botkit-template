@@ -17,7 +17,7 @@ const serviceOptions = {
   // If you do not have NotificationService.wsdl it can be found via a quick Google search
   xml: fs.readFileSync('NotificationService.wsdl', 'utf8') // the xml field is required
 };
-ews[ews.auth].wsdlOptions = ews.auth.wsdlOptions
+ews[ews.auth] = ews.auth;
 
 const ewsArgs = {
   PushSubscriptionRequest: {
