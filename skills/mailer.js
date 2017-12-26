@@ -53,6 +53,7 @@ module.exports = function(controller) {
             }
             var headerMessage = '## EIP Team Inbox Status \n - - - \n'
             var botMessage = headerMessage + inboxMessage + foldersMessage;
+            console.log(botMessage);
             bot.reply(message,{text: 'If you had markdown enabled you would be able to see something cool...', markdown: botMessage});
           })
           .catch(err => {console.log(err.message)});
