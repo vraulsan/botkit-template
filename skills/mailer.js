@@ -43,15 +43,15 @@ module.exports = function(controller) {
     ews.run('GetFolder', GetFolderArgs)
       .then(result => {
         var inbox = result.ResponseMessages.GetFolderResponseMessage.Folders.Folder;
-        var inboxMessage = 'Folder name: ' + inbox.DisplayName + '\n\n' + '   id: ' + inbox.FolderId.attributes.Id + '\n\n' + '   total items: ' + inbox.TotalCount + '\n\n' + '   unread items: ' + inbox.UnreadCount + '\n\n';
+        var inboxMessage = '**' + inbox.DisplayName + '** \n' /*+ '   id: ' + inbox.FolderId.attributes.Id + '\n'*/ + '   totals messages: **' + inbox.TotalCount + '** \n' + '   unread messages: **' + inbox.UnreadCount + '** \n';
         ews.run('FindFolder', FindFolderArgs)
           .then (result => {
             var folders = result.ResponseMessages.FindFolderResponseMessage.RootFolder.Folders.Folder;
             var foldersMessage = '';
             for (var i=0;i<folders.length;i++) {
-              var foldersMessage = foldersMessage + '- - -' + '\n\n Folder name: ' + folders[i].DisplayName + '\n\n' + '   id: ' + folders[i].FolderId.attributes.Id + '\n\n' + '   total items: ' + folders[i].TotalCount + '\n\n' + '   unread items: ' + folders[i].UnreadCount + '\n\n';
+              var foldersMessage = foldersMessage + '- - -' + '\n **' + folders[i].DisplayName + '** \n' /*+ '   id: ' + folders[i].FolderId.attributes.Id + '\n'*/ + '   total messages: **' + folders[i].TotalCount + '** \n' + '   unread messages: **' + folders[i].UnreadCount + '** \n';
             }
-            var headerMessage = '## EIP Team Inbox Status \n\n - - - \n\n'
+            var headerMessage = '## EIP Team Inbox Status \n - - - \n'
             var botMessage = headerMessage + inboxMessage + foldersMessage;
             bot.reply(message,{text: 'If you had markdown enabled you would be able to see something cool...', markdown: botMessage});
           })
