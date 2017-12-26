@@ -1,58 +1,61 @@
 const EWS = require('node-ews');
 const fs = require('fs');
 
-// exchange server connection info
 const ewsConfig = {
-  username: 'victor.sanchezmaggiolo@charter.com',
-  password: process.env.OUTLOOKPASS,
+  username: process.env.MSOUSERNAME,
+  password: process.env.MSOPASSWORD,
   host: 'https://outlook.charter.com'
 };
-
 const ews = new EWS(ewsConfig);
 
-// specify listener service options
-const serviceOptions = {
-  port: 8000, // defaults to port 8000
-  path: '/', // defaults to '/notification'
-  // If you do not have NotificationService.wsdl it can be found via a quick Google search
-  xml: fs.readFileSync('NotificationService.wsdl', 'utf8') // the xml field is required
-};
-ews[ews.auth] = ews.auth;
-
-const ewsArgs = {
-  PushSubscriptionRequest: {
-    FolderIds: {
-      DistinguishedFolderId: {
-        attributes: {
-          Id: 'inbox'
-        }
+const GetFolderArgs = {
+	FolderShape: {
+    BaseShape:'Default'
+  },
+  FolderIds: {
+    DistinguishedFolderId: {
+      attributes: {
+        Id: 'inbox'
       }
-    },
-    EventTypes: {
-      EventType: ['CreatedEvent']
-    },
-    StatusFrequency: 1,
-    // subscription notifications will be sent to our listener service
-    URL: 'https://spark-piebot.herokuapp.com:8000/'
+    }
   }
 };
+const FindFolderArgs = {
+  attributes: {
+    Traversal: 'Shallow'
+  },
+  FolderShape: {
+    BaseShape: 'Default'
+  },
+  ParentFolderIds: {
+    DistinguishedFolderId: {
+      attributes: {
+        Id: 'inbox'
+      }
+    }
+  }
+}
+///
 
 module.exports = function(controller) {
   controller.hears('mailer', 'direct_message,direct_mention', function(bot, message) {
-    ews.notificationService(serviceOptions, function(response) {
-      console.log(new Date().toISOString(), '| Received EWS Push Notification');
-      console.log(new Date().toISOString(), '| Response:', JSON.stringify(response));
-      // Do something with response
-      return {SendNotificationResult: { SubscriptionStatus: 'OK' } }; // respond with 'OK' to keep subscription alive
-      // return {SendNotificationResult: { SubscriptionStatus: 'UNSUBSCRIBE' } }; // respond with 'UNSUBSCRIBE' to unsubscribe
-    });
-    ews.run('Subscribe', ewsArgs)
-    .then(result => {
-      console.log(result);
-    })
-    .catch(err => {
-      console.log(err.message);
-    });
-    bot.reply(message, 'yoyo ' + name);
+    bot.reply(message, 'One sec, let me fetch that real quick...');
+    ews.run('GetFolder', GetFolderArgs)
+      .then(result => {
+        var inbox = result.ResponseMessages.GetFolderResponseMessage.Folders.Folder;
+        var inboxMessage = 'Folder name: ' + inbox.DisplayName + '\n\n' + '   id: ' + inbox.FolderId.attributes.Id + '\n\n' + '   total items: ' + inbox.TotalCount + '\n\n' + '   unread items: ' + inbox.UnreadCount + '\n\n';
+        ews.run('FindFolder', FindFolderArgs)
+          .then (result => {
+            var folders = result.ResponseMessages.FindFolderResponseMessage.RootFolder.Folders.Folder;
+            var foldersMessage = '';
+            for (var i=0;i<folders.length;i++) {
+              var foldersMessage += 'Folder name: ' + folders[i].DisplayName + '\n\n' + '   id: ' + folders[i].FolderId.attributes.Id + '\n\n' + '   total items: ' + folders[i].TotalCount + '\n\n' + '   unread items: ' + folders[i].UnreadCount + '\n\n';
+            }
+            var botMessage = inboxMessage + foldersMessage
+            bot.reply(message,{text: 'If you had markdown enabled you would be able to see something cool...', markdown: botMessage});
+          })
+          .catch(err => {console.log(err.message)});
+      })
+      .catch(err => {console.log(err.message)});
   });
 };
