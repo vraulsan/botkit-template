@@ -49,7 +49,7 @@ module.exports = function(controller) {
             var folders = result.ResponseMessages.FindFolderResponseMessage.RootFolder.Folders.Folder;
             var foldersMessage = '';
             for (var i=0;i<folders.length;i++) {
-              var foldersMessage = folderMessage + 'Folder name: ' + folders[i].DisplayName + '\n\n' + '   id: ' + folders[i].FolderId.attributes.Id + '\n\n' + '   total items: ' + folders[i].TotalCount + '\n\n' + '   unread items: ' + folders[i].UnreadCount + '\n\n';
+              var foldersMessage = foldersMessage + 'Folder name: ' + folders[i].DisplayName + '\n\n' + '   id: ' + folders[i].FolderId.attributes.Id + '\n\n' + '   total items: ' + folders[i].TotalCount + '\n\n' + '   unread items: ' + folders[i].UnreadCount + '\n\n';
             }
             var botMessage = inboxMessage + foldersMessage
             bot.reply(message,{text: 'If you had markdown enabled you would be able to see something cool...', markdown: botMessage});
