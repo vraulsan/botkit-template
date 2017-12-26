@@ -57,34 +57,19 @@ module.exports = function(controller) {
 };
 
 
-
-
-
-
 var generateMarkdown = function (inbox, folders) {
-  var inboxMessage = '**' + inbox.DisplayName + '** \n\n' + /*+ '   id: ' + inbox.FolderId.attributes.Id + '\n'*/
-                    'totals messages: **' + inbox.TotalCount + '** \n' +
-                    'unread messages: **' + inbox.UnreadCount + '** \n';
+  var inboxMessage = ''+ /*+ '   id: ' + inbox.FolderId.attributes.Id + '\n'*/
+                    '> totals messages: ' + '**'+inbox.TotalCount+'**' + '\n\n' +
+                    '> unread messages: ' + '**'+inbox.UnreadCount+'**' + '\n\n';
   var foldersMessage = ''
   for (var i=0;i<folders.length;i++) {
     var foldersMessage = foldersMessage +
-                        '- - - \n' +
-                        '**' + folders[i].DisplayName + '** \n\n' + /*+ '   id: ' + folders[i].FolderId.attributes.Id + '\n'*/
-                        'total messages: **' + folders[i].TotalCount + '** \n' +
-                        'unread messages: **' + folders[i].UnreadCount + '** \n'
+                        '**'+folders[i].DisplayName+'**' + '\n\n' + '- - -' + '\n\n' +/*+ '   id: ' + folders[i].FolderId.attributes.Id + '\n'*/
+                        '> total messages: ' + '**'+folders[i].TotalCount+'**' + '\n\n' +
+                        '> unread messages: ' + '**'+folders[i].UnreadCount+'**' + '\n\n'
   }
-  var headerMessage = '## EIP Team Inbox Status \n - - - \n'
-  return headerMessage + inboxMessage + foldersMessage
+  var headerMessage = '## EIP Inbox\n\n'+'- - -\n\n'
+  var footerMessage = '- - -' + '\n\n' + 'You can say something like **"expand inbox"** or **"expand cisco"** to see the last few subject lines (coming soon)'
+  var finalMessage = headerMessage + inboxMessage + foldersMessage + footerMessage;
+  return finalMessage
 }
-
-
-/*
-
-## EIP Team Inbox Status \n
-- - - \n
-**FOLDER-NAME** \n
-total messages: **n** \n
-unread messages: **n** \n
-- - - \n
-
-*/
