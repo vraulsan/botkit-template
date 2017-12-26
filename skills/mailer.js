@@ -62,17 +62,29 @@ module.exports = function(controller) {
 
 
 var generateMarkdown = function (inbox, folders) {
-  var inboxMessage = '**' + inbox.DisplayName + '** \n' + /*+ '   id: ' + inbox.FolderId.attributes.Id + '\n'*/
+  var inboxMessage = '**' + inbox.DisplayName + '** \n\n' + /*+ '   id: ' + inbox.FolderId.attributes.Id + '\n'*/
                     'totals messages: **' + inbox.TotalCount + '** \n' +
                     'unread messages: **' + inbox.UnreadCount + '** \n';
   var foldersMessage = ''
   for (var i=0;i<folders.length;i++) {
     var foldersMessage = foldersMessage +
                         '- - - \n' +
-                        '**' + folders[i].DisplayName + '** \n' + /*+ '   id: ' + folders[i].FolderId.attributes.Id + '\n'*/
+                        '**' + folders[i].DisplayName + '** \n\n' + /*+ '   id: ' + folders[i].FolderId.attributes.Id + '\n'*/
                         'total messages: **' + folders[i].TotalCount + '** \n' +
                         'unread messages: **' + folders[i].UnreadCount + '** \n'
   }
   var headerMessage = '## EIP Team Inbox Status \n - - - \n'
   return headerMessage + inboxMessage + foldersMessage
 }
+
+
+/*
+
+## EIP Team Inbox Status \n
+- - - \n
+**FOLDER-NAME** \n
+total messages: **n** \n
+unread messages: **n** \n
+- - - \n
+
+*/
