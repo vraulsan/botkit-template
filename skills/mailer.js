@@ -43,16 +43,10 @@ module.exports = function(controller) {
     ews.run('GetFolder', GetFolderArgs)
       .then(result => {
         var inbox = result.ResponseMessages.GetFolderResponseMessage.Folders.Folder;
-        var inboxMessage = '**' + inbox.DisplayName + '** \n' /*+ '   id: ' + inbox.FolderId.attributes.Id + '\n'*/ + '   totals messages: **' + inbox.TotalCount + '** \n' + '   unread messages: **' + inbox.UnreadCount + '** \n';
         ews.run('FindFolder', FindFolderArgs)
           .then (result => {
             var folders = result.ResponseMessages.FindFolderResponseMessage.RootFolder.Folders.Folder;
-            var foldersMessage = '';
-            for (var i=0;i<folders.length;i++) {
-              var foldersMessage = foldersMessage + '- - -' + '\n **' + folders[i].DisplayName + '** \n' /*+ '   id: ' + folders[i].FolderId.attributes.Id + '\n'*/ + '   total messages: **' + folders[i].TotalCount + '** \n' + '   unread messages: **' + folders[i].UnreadCount + '** \n';
-            }
-            var headerMessage = '## EIP Team Inbox Status \n - - - \n'
-            var botMessage = headerMessage + inboxMessage + foldersMessage;
+            var botMessage = generateMarkdown(inbox, folders)
             console.log(botMessage);
             bot.reply(message,{text: 'If you had markdown enabled you would be able to see something cool...', markdown: botMessage});
           })
@@ -61,3 +55,24 @@ module.exports = function(controller) {
       .catch(err => {console.log(err.message)});
   });
 };
+
+
+
+
+
+
+var generateMarkdown = function (inbox, folders) {
+  var inboxMessage = '**' + inbox.DisplayName + '** \n' + /*+ '   id: ' + inbox.FolderId.attributes.Id + '\n'*/
+                    'totals messages: **' + inbox.TotalCount + '** \n' +
+                    'unread messages: **' + inbox.UnreadCount + '** \n';
+  var foldersMessage = ''
+  for (var i=0;i<folders.length;i++) {
+    var foldersMessage = foldersMessage +
+                        '- - - \n' +
+                        '**' + folders[i].DisplayName + '** \n' + /*+ '   id: ' + folders[i].FolderId.attributes.Id + '\n'*/
+                        'total messages: **' + folders[i].TotalCount + '** \n' +
+                        'unread messages: **' + folders[i].UnreadCount + '** \n'
+  }
+  var headerMessage = '## EIP Team Inbox Status \n - - - \n'
+  return headerMessage + inboxMessage + foldersMessage
+}
