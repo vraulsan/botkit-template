@@ -34,5 +34,6 @@ var generateTicketList = results => {
     text = text + '- - -' + '\n\n'
   })
   text = text + '## Total Tickets: ' + ticketCount + '\n\n' + '## Total Unassigned: ' + ticketUna;
+  console.log(text);
   return text
 }
