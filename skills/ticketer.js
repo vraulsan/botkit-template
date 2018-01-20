@@ -5,7 +5,7 @@ const bhn_tickets_url = "https://cf379163.ngrok.io/bhn_tickets"
 
 module.exports = function(controller) {
 
-  controller.hears('ticket count', 'direct_message,direct_mention', function(bot, message) {
+  controller.hears('tickets', 'direct_message,direct_mention', function(bot, message) {
     axios.get(ticket_count_url)
       .then(res => {
         console.log(res.data[bhn])
