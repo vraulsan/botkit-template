@@ -1,15 +1,27 @@
 const axios = require('axios');
 
-const url = "https://397daa04.ngrok.io/tickets"
+const ticket_count_url = "https://397daa04.ngrok.io/ticket_count"
+const bhn_tickets_url = "https://397daa04.ngrok.io/bhn_tickets"
 
 module.exports = function(controller) {
   controller.hears('tickets', 'direct_message,direct_mention', function(bot, message) {
-    axios.get(url)
+    axios.get(ticket_count_url)
       .then(res => {
-        //console.log(res.data);
-        //console.log(typeof res.data)
-        finalText = generateTicketList(res.data)
-        //console.log(finalText);
+        console.log(res.data[bhn])
+        //finalText = generateTicketCountMD(res.data)
+        //bot.reply(message, finalText)
+      })
+      .catch(err => { console.log(err) })
+    bot.reply(message, 'One sec, let me fetch that real quick...');
+  })
+}
+
+
+module.exports = function(controller) {
+  controller.hears('bhn tickets', 'direct_message,direct_mention', function(bot, message) {
+    axios.get(bhn_tickets_url)
+      .then(res => {
+        finalText = generateBHNticketsMD(res.data)
         bot.reply(message, finalText)
       })
       .catch(err => { console.log(err) })
@@ -17,7 +29,16 @@ module.exports = function(controller) {
   })
 }
 
-var generateTicketList = results => {
+
+
+
+var generateTicketCountMD = results => {
+  // here goes the ticket count markdown generation
+  //var bhn_open = results[bhn][open]
+}
+
+
+var generateBHNticketsMD = results => {
   var text = ''
   var ticketCount = 0;
   var ticketUna = 0;
