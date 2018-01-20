@@ -4,6 +4,7 @@ const ticket_count_url = "https://cf379163.ngrok.io/ticket_count"
 const bhn_tickets_url = "https://cf379163.ngrok.io/bhn_tickets"
 
 module.exports = function(controller) {
+
   controller.hears('ticket count', 'direct_message,direct_mention', function(bot, message) {
     axios.get(ticket_count_url)
       .then(res => {
@@ -14,10 +15,7 @@ module.exports = function(controller) {
       .catch(err => { console.log(err) })
     bot.reply(message, 'One sec, let me fetch that real quick...');
   })
-}
 
-
-module.exports = function(controller) {
   controller.hears('bhn tickets', 'direct_message,direct_mention', function(bot, message) {
     axios.get(bhn_tickets_url)
       .then(res => {
@@ -27,9 +25,8 @@ module.exports = function(controller) {
       .catch(err => { console.log(err) })
     bot.reply(message, 'One sec, let me fetch that real quick...');
   })
+
 }
-
-
 
 
 var generateTicketCountMD = results => {
