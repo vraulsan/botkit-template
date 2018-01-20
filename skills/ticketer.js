@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-const url = "https://3f86c6ad.ngrok.io/tickets"
+const url = "https://0869c4b0.ngrok.io/tickets"
 
 module.exports = function(controller) {
   controller.hears('tickets', 'direct_message,direct_mention', function(bot, message) {
