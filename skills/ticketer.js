@@ -9,8 +9,8 @@ module.exports = function(controller) {
     axios.get(ticket_count_url)
       .then(res => {
         console.log(res.data['bhn'])
-        //finalText = generateTicketCountMD(res.data)
-        //bot.reply(message, finalText)
+        finalText = generateTicketCountMD(res.data)
+        bot.reply(message, finalText)
       })
       .catch(err => { console.log(err) })
     bot.reply(message, 'One sec, let me fetch that real quick...');
@@ -30,8 +30,20 @@ module.exports = function(controller) {
 
 
 var generateTicketCountMD = results => {
-  // here goes the ticket count markdown generation
-  //var bhn_open = results[bhn][open]
+  var bhn_open = results['bhn']['open'];
+  var bhn_una = results['bhn']['una'];
+  var twc_cms = results['twc']['cms'];
+  var twc_open = results['twc']['open'];
+  var twc_una = results['twc']['una'];
+  var text = '## DAC/TRB Ticket count\n' +
+              '```\nDAC Tickets\n' +
+              '============\n' +
+              bhn_open + ' Open\n' + bhn_una + ' Unassigned\n\n' +
+              'TRB Tickets\n' +
+              '==============\n' +
+              twc_cms + ' CMS\n' + twc_open + ' Open\n' + twc_una + 'Unassigned\n' + '```\n' +
+              'You can also say **bhn tickets** or **twc tickets** to get the full list'
+  return text
 }
 
 
