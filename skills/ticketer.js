@@ -13,7 +13,7 @@ module.exports = function(controller) {
         bot.reply(message, finalText)
       })
       .catch(err => { console.log(err) })
-    bot.reply(message, 'One sec, let me fetch that real quick...');
+    bot.reply(message, 'This may take me a few seconds...');
   })
 
   controller.hears([/^bhn tickets$/], 'direct_message,direct_mention', function(bot, message) {
@@ -35,13 +35,13 @@ var generateTicketCountMD = results => {
   var twc_cms = results['twc']['cms'];
   var twc_open = results['twc']['open'];
   var twc_una = results['twc']['una'];
-  var text = '## DAC/TRB Ticket count\n' +
+  var text = '## DAC and TRB Ticket count\n' +
               '```\nDAC Tickets\n' +
               '============\n' +
-              bhn_open + ' Open\n' + bhn_una + ' Unassigned\n\n' +
+              'Open: ' + bhn_open +'\n' + 'Unassigned: ' + bhn_una + '\n\n' +
               'TRB Tickets\n' +
-              '==============\n' +
-              twc_cms + ' CMS\n' + twc_open + ' Open\n' + twc_una + 'Unassigned\n' + '```\n' +
+              '=============\n' +
+              'CMS: ' + twc_cms + '\n' + 'Open: ' + twc_open + '\n' + 'Unassigned: ' + twc_una + '\n' + '```\n' +
               'You can also say **bhn tickets** or **twc tickets** to get the full list'
   return text
 }
