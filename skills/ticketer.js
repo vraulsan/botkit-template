@@ -12,7 +12,9 @@ module.exports = function(controller) {
         finalText = generateTicketCountMD(res.data)
         bot.reply(message, finalText)
       })
-      .catch(err => { console.log(err) })
+      .catch(err => {
+        bot.reply(message, 'Sorry, the request to the remedy servers failed, you can try again but the API may be broken...')
+      })
     bot.reply(message, 'This may take me a few seconds...');
   })
 
@@ -22,7 +24,9 @@ module.exports = function(controller) {
         finalText = generateBHNticketsMD(res.data)
         bot.reply(message, finalText)
       })
-      .catch(err => { console.log(err) })
+      .catch(err => {
+        bot.reply(message, 'Sorry, the request to the remedy server failed, you can try again but the API may be broken...')
+      })
     bot.reply(message, 'One sec, let me fetch that real quick...');
   })
 
@@ -32,7 +36,9 @@ module.exports = function(controller) {
         finalText = generateTWCticketsMD(res.data)
         bot.reply(message, finalText)
       })
-      .catch(err => { console.log(err) })
+      .catch(err => {
+        bot.reply(message, 'Sorry, the request to the remedy server failed, you can try again but the API may be broken...')
+      })
     bot.reply(message, 'One sec, let me fetch that real quick...');
   })
 
