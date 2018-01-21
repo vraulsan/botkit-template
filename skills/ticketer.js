@@ -2,6 +2,7 @@ const axios = require('axios');
 
 const ticket_count_url = process.env.NGROK+"/ticket_count"
 const bhn_tickets_url = process.env.NGROK+"/bhn_tickets"
+const twc_tickets_url = process.env.NGROK+"/twc_tickets"
 
 module.exports = function(controller) {
 
@@ -19,6 +20,16 @@ module.exports = function(controller) {
     axios.get(bhn_tickets_url)
       .then(res => {
         finalText = generateBHNticketsMD(res.data)
+        bot.reply(message, finalText)
+      })
+      .catch(err => { console.log(err) })
+    bot.reply(message, 'One sec, let me fetch that real quick...');
+  })
+
+  controller.hears([/^twc tickets$/], 'direct_message,direct_mention', function(bot, message) {
+    axios.get(twc_tickets_url)
+      .then(res => {
+        finalText = generateTWCticketsMD(res.data)
         bot.reply(message, finalText)
       })
       .catch(err => { console.log(err) })
@@ -50,13 +61,32 @@ var generateBHNticketsMD = results => {
   var text = ''
   var ticketCount = 0;
   var ticketUna = 0;
-  //console.log('HERE FULL RESULTS: ', results)
   Object.keys(results).forEach( key => {
     var topKey = results[key];
     ticketCount = ticketCount + 1
     if (topKey['Assignee Name'] == null) {
         ticketUna = ticketUna + 1
         topKey['Assignee Name'] = 'Unassigned'
+      }
+    Object.keys(topKey).forEach( key => {
+      text = text + key + ': ' + topKey[key] + '\n'
+    })
+    text = text + '-----------------------------------------------------------' + '\n'
+  })
+  text = '```\n' + text + '```\n### Total Tickets: ' + ticketCount + '\n\n' + '### Total Unassigned: ' + ticketUna;
+  return text
+}
+
+var generateTWCticketsMD = results => {
+  var text = ''
+  var ticketCount = 0;
+  var ticketUna = 0;
+  Object.keys(results).forEach( key => {
+    var topKey = results[key];
+    ticketCount = ticketCount + 1
+    if (topKey['Assigned To'] == null) {
+        ticketUna = ticketUna + 1
+        topKey['Assigned To'] = 'Unassigned'
       }
     Object.keys(topKey).forEach( key => {
       text = text + key + ': ' + topKey[key] + '\n'
