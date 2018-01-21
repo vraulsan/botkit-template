@@ -1,7 +1,7 @@
 const axios = require('axios');
 
-const ticket_count_url = "https://cf379163.ngrok.io/ticket_count"
-const bhn_tickets_url = "https://cf379163.ngrok.io/bhn_tickets"
+const ticket_count_url = process.env.NGROK+"/ticket_count"
+const bhn_tickets_url = process.env.NGROK+"/bhn_tickets"
 
 module.exports = function(controller) {
 
